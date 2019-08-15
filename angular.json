@@ -1,7 +1,68 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "restart-to-early": {
+      "root": "apps/restart-to-early",
+      "sourceRoot": "apps/restart-to-early/src",
+      "projectType": "application",
+      "prefix": "restart-to-early",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/restart-to-early",
+            "main": "apps/restart-to-early/src/main.ts",
+            "tsConfig": "apps/restart-to-early/tsconfig.app.json",
+            "assets": [
+              "apps/restart-to-early/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/restart-to-early/src/environments/environment.ts",
+                  "with": "apps/restart-to-early/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "restart-to-early:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/restart-to-early/tsconfig.app.json",
+              "apps/restart-to-early/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/restart-to-early/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/restart-to-early/jest.config.js",
+            "tsConfig": "apps/restart-to-early/tsconfig.spec.json"
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "restart-to-early"
 }
