@@ -1,8 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnApplicationShutdown } from '@nestjs/common';
 
 @Injectable()
-export class AppService {
+export class AppService implements OnApplicationShutdown {
   getData(): { message: string } {
-    return ({ message: 'Welcome  restart-to-early!' });
+    return ({ message: 'Welcome to restart-to-early!' });
+  }
+
+  async onApplicationShutdown(signal?: string) {
+    console.log('app shutdown started');
+    await new Promise<void>(resolve => { 
+      setTimeout(() => {
+        console.log('app shutdown finished');
+        resolve();
+      }, 1000);
+    });
   }
 }
